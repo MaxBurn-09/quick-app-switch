@@ -79,7 +79,7 @@ function Labeled({ label, children }: { label: string; children: React.ReactNode
 const inputCls =
   "bg-card2 border-border focus:border-saffron mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none";
 
-function EventForm({ userId }: { userId?: string }) {
+function EventForm({ userId }: { userId?: string | undefined }) {
   const qc = useQueryClient();
   const events = useQuery(eventsQuery);
   const [f, setF] = useState({
@@ -248,7 +248,7 @@ function EventForm({ userId }: { userId?: string }) {
   );
 }
 
-function AnnouncementForm({ userId }: { userId?: string }) {
+function AnnouncementForm({ userId }: { userId?: string | undefined }) {
   const qc = useQueryClient();
   const [f, setF] = useState({ title: "", body: "", priority: "normal" });
 
