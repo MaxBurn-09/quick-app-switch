@@ -164,6 +164,39 @@ function AuthPage() {
           </button>
         </form>
 
+        {pendingEmail && (
+          <div className="border-border bg-card2 mt-4 rounded-xl border p-3">
+            <p className="text-sm">
+              We sent a confirmation link to <span className="text-saffron">{pendingEmail}</span>.
+              Open it to activate your account, then sign in.
+            </p>
+            <button onClick={resend} className="text-saffron mt-2 font-mono text-[10px] tracking-wider">
+              RESEND EMAIL
+            </button>
+          </div>
+        )}
+
+        <div className="my-5 flex items-center gap-3">
+          <span className="bg-border h-px flex-1" />
+          <span className="text-fog font-mono text-[10px] tracking-[0.2em]">OR</span>
+          <span className="bg-border h-px flex-1" />
+        </div>
+
+        <button
+          type="button"
+          onClick={google}
+          disabled={busy}
+          className="border-border bg-card2 hover:border-saffron flex w-full items-center justify-center gap-3 rounded-xl border py-3 text-sm font-semibold transition-colors disabled:opacity-60"
+        >
+          <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
+            <path fill="#EA4335" d="M12 10.2v3.9h5.5a4.7 4.7 0 0 1-2 3.1l3.2 2.5c1.9-1.7 3-4.3 3-7.4 0-.7-.1-1.4-.2-2H12z" />
+            <path fill="#34A853" d="M6.6 14.3 5.9 15l-2.5 2A9.9 9.9 0 0 0 12 22c2.7 0 5-.9 6.7-2.4l-3.2-2.5c-.9.6-2 1-3.5 1a6 6 0 0 1-5.4-3.8z" />
+            <path fill="#FBBC05" d="M3.4 7A9.9 9.9 0 0 0 2.3 12c0 1.8.4 3.5 1.1 5l3.2-2.7a6 6 0 0 1 0-4.6z" />
+            <path fill="#4285F4" d="M12 6.2c1.5 0 2.9.5 3.9 1.5l2.9-2.9A9.6 9.6 0 0 0 12 2 9.9 9.9 0 0 0 3.4 7l3.2 2.7A6 6 0 0 1 12 6.2z" />
+          </svg>
+          Continue with Google
+        </button>
+
         <button
           onClick={() => setMode(mode === "in" ? "up" : "in")}
           className="text-fog mt-5 w-full text-center text-sm"
