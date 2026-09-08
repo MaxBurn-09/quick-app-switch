@@ -110,7 +110,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           </header>
 
-          <main className="mx-auto w-full max-w-[900px] flex-1 px-4 pt-4 pb-28 sm:px-6 lg:px-10 lg:pt-10 lg:pb-14">
+          <main
+            className={`mx-auto w-full flex-1 px-4 pt-4 pb-28 sm:px-6 lg:px-10 lg:pt-10 lg:pb-14 ${
+              pathname.startsWith("/admin") ? "max-w-[1240px]" : "max-w-[900px]"
+            }`}
+          >
             {children}
           </main>
         </div>
