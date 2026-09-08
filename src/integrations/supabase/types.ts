@@ -352,6 +352,8 @@ export type Database = {
       }
       reports: {
         Row: {
+          action: string | null
+          admin_note: string
           comment_id: string | null
           created_at: string
           id: string
@@ -359,8 +361,12 @@ export type Database = {
           reason: string
           reporter_id: string
           resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
         }
         Insert: {
+          action?: string | null
+          admin_note?: string
           comment_id?: string | null
           created_at?: string
           id?: string
@@ -368,8 +374,12 @@ export type Database = {
           reason?: string
           reporter_id: string
           resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
         }
         Update: {
+          action?: string | null
+          admin_note?: string
           comment_id?: string | null
           created_at?: string
           id?: string
@@ -377,6 +387,8 @@ export type Database = {
           reason?: string
           reporter_id?: string
           resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
         }
         Relationships: [
           {
