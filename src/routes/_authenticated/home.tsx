@@ -65,7 +65,7 @@ function HomePage() {
             <img
               src={coverFor(featured.category, featured.cover_image)}
               alt={featured.title}
-              className="h-44 w-full object-cover"
+              className="h-44 w-full object-cover sm:h-60 lg:h-72"
               loading="lazy"
             />
             <div className="from-canvas absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
@@ -107,13 +107,13 @@ function HomePage() {
 
       <section>
         <SectionTitle aside={<Link to="/events">SEE ALL</Link>}>Upcoming events</SectionTitle>
-        <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1">
+        <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-3">
           {upcoming.slice(0, 6).map((e) => (
             <Link
               key={e.id}
               to="/events/$id"
               params={{ id: e.id }}
-              className="border-border bg-card w-44 shrink-0 overflow-hidden rounded-xl border"
+              className="border-border bg-card w-44 shrink-0 overflow-hidden rounded-xl border sm:w-auto"
             >
               <img
                 src={coverFor(e.category, e.cover_image)}
