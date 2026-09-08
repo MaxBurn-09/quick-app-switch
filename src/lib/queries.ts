@@ -124,6 +124,28 @@ export const notificationsQuery = queryOptions({
     >(supabase.from("notifications").select("*").order("created_at", { ascending: false })),
 });
 
+export type AdminStats = {
+  members: number;
+  members_week: number;
+  registrations: number;
+  registrations_week: number;
+  posts: number;
+  posts_week: number;
+  notifications: number;
+  notifications_week: number;
+  events: number;
+  open_reports: number;
+};
+
+export const adminStatsQuery = queryOptions({
+  queryKey: ["admin_stats"],
+  queryFn: async (): Promise<AdminStats | null> => {
+    const { data, error } = await supabase.rpc("admin_stats");
+    if (error) throw new Error(error.message);
+    return (data?.[0] as AdminStats | undefined) ?? null;
+  },
+});
+
 export const reportsQuery = queryOptions({
   queryKey: ["reports"],
   queryFn: () =>
