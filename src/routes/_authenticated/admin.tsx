@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useMe } from "@/hooks/useSession";
 import { supabase } from "@/integrations/supabase/client";
-import { eventsQuery, postsQuery, reportsQuery } from "@/lib/queries";
+import { adminStatsQuery, eventsQuery, postsQuery, reportsQuery } from "@/lib/queries";
 import { Chip } from "@/components/AppShell";
 import { longDate, timeAgo } from "@/lib/format";
 
