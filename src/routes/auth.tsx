@@ -67,10 +67,31 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-5 py-10">
-      <div className="fadeup w-full max-w-[400px]">
-        <Link to="/" className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase">
-          ← Back
-        </Link>
+      <div className="fadeup border-border bg-card/40 w-full max-w-[400px] lg:grid lg:max-w-4xl lg:grid-cols-[1fr_1.1fr] lg:overflow-hidden lg:rounded-[28px] lg:border">
+        <div className="bg-card2 border-border relative hidden flex-col justify-between border-r p-10 lg:flex">
+          <Link to="/" className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase">
+            ← Back
+          </Link>
+          <div>
+            <p className="text-fog font-mono text-[10px] tracking-[0.25em] uppercase">Campus</p>
+            <p className="font-display mt-2 text-6xl leading-[0.95] tracking-tight">
+              SEARCHING
+              <br />
+              EYES
+            </p>
+            <p className="text-fog mt-4 max-w-xs text-sm">
+              Events, announcements, activities and a student-only community — one sign-in away.
+            </p>
+          </div>
+          <p className="text-fog font-mono text-[10px] tracking-wider">MEMBERS ONLY</p>
+        </div>
+        <div className="lg:p-12">
+          <Link
+            to="/"
+            className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase lg:hidden"
+          >
+            ← Back
+          </Link>
         <h1 className="font-display mt-5 text-4xl leading-none tracking-tight">
           {mode === "in" ? "WELCOME BACK" : "JOIN THE CIRCLE"}
         </h1>
@@ -127,6 +148,7 @@ function AuthPage() {
             </>
           )}
         </button>
+        </div>
       </div>
     </div>
   );

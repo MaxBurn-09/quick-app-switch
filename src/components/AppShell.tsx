@@ -158,7 +158,7 @@ export function Chip({ tone = "saffron", children }: { tone?: string; children: 
   };
   return (
     <span
-      className={`inline-block rounded px-2 py-0.5 font-mono text-[10px] tracking-wider ${map[tone] ?? map.saffron}`}
+      className={`inline-block rounded px-2 py-0.5 font-mono text-[10px] tracking-wider ${map[tone] ?? map["saffron"]}`}
     >
       {children}
     </span>

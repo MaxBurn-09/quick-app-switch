@@ -70,8 +70,10 @@ function HomePage() {
             />
             <div className="from-canvas absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
             <div className="absolute right-0 bottom-0 left-0 p-4">
-              <Chip tone={accentFor(featured.category)}>{countdownLabel(featured.event_date)}</Chip>
-              <h2 className="font-display mt-2 text-2xl leading-tight tracking-tight">
+              <div className="mb-2.5 inline-block">
+                <Chip tone={accentFor(featured.category)}>{countdownLabel(featured.event_date)}</Chip>
+              </div>
+              <h2 className="font-display block text-2xl leading-tight tracking-tight">
                 {featured.title}
               </h2>
               <p className="text-fog text-xs">
