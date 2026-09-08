@@ -157,6 +157,9 @@ export const reportsQuery = queryOptions({
         reporter_id: string;
         reason: string;
         resolved: boolean;
+        action: string | null;
+        admin_note: string;
+        resolved_at: string | null;
         created_at: string;
       }[]
     >(supabase.from("reports").select("*").order("created_at", { ascending: false })),
