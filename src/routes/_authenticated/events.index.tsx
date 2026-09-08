@@ -50,7 +50,7 @@ function EventsPage() {
 
   return (
     <div className="fadeup space-y-4">
-      <h1 className="font-display text-3xl leading-none tracking-tight">EVENTS</h1>
+      <h1 className="font-display text-3xl leading-none tracking-tight sm:text-4xl">EVENTS</h1>
 
       <input
         value={q}
@@ -73,7 +73,7 @@ function EventsPage() {
         ))}
       </div>
 
-      <div className="space-y-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {list.map((e) => (
           <Link
             key={e.id}
@@ -84,7 +84,7 @@ function EventsPage() {
             <img
               src={coverFor(e.category, e.cover_image)}
               alt={e.title}
-              className="h-24 w-24 shrink-0 object-cover"
+              className="h-full min-h-24 w-24 shrink-0 object-cover sm:w-28"
               loading="lazy"
             />
             <div className="min-w-0 flex-1 py-2.5 pr-3">
