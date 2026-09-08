@@ -455,8 +455,8 @@ function Moderation({ profiles }: { profiles: { id: string; full_name: string }[
   const open = (reports.data ?? []).filter((r) => !r.resolved);
 
   return (
-    <div className="space-y-3">
-      <h2 className="font-display text-lg tracking-tight">Reported content</h2>
+    <div className="grid gap-3 xl:grid-cols-2">
+      <h2 className="font-display text-lg tracking-tight xl:col-span-2">Reported content</h2>
       {open.map((r) => {
         const post = (posts.data ?? []).find((p) => p.id === r.post_id);
         const author = profiles.find((p) => p.id === post?.author_id)?.full_name ?? "Student";
