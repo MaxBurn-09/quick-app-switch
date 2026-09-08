@@ -25,11 +25,11 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-const TABS = ["events", "announcements", "moderation"] as const;
+const TABS = ["dashboard", "events", "announcements", "moderation"] as const;
 
 function AdminPage() {
   const { isAdmin, user, profiles } = useMe();
-  const [tab, setTab] = useState<(typeof TABS)[number]>("events");
+  const [tab, setTab] = useState<(typeof TABS)[number]>("dashboard");
 
   if (!isAdmin) {
     return (
@@ -43,26 +43,139 @@ function AdminPage() {
   }
 
   return (
-    <div className="fadeup space-y-5">
-      <h1 className="font-display text-3xl leading-none tracking-tight sm:text-4xl">ADMIN TOOLS</h1>
+    <div className="fadeup space-y-6">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase">Control room</p>
+          <h1 className="font-display text-3xl leading-none tracking-tight sm:text-4xl lg:text-5xl">
+            ADMIN TOOLS
+          </h1>
+        </div>
 
-      <div className="flex flex-wrap gap-2">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-wider uppercase ${
-              tab === t ? "bg-saffron text-canvas" : "bg-card2 text-fog"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+        <div className="flex flex-wrap gap-2">
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-wider uppercase ${
+                tab === t ? "bg-saffron text-canvas" : "bg-card2 text-fog"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
+      {tab === "dashboard" && <Dashboard />}
       {tab === "events" && <EventForm userId={user?.id} />}
       {tab === "announcements" && <AnnouncementForm userId={user?.id} />}
       {tab === "moderation" && <Moderation profiles={profiles} />}
+    </div>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  week,
+  tone,
+}: {
+  label: string;
+  value: number;
+  week: number;
+  tone: string;
+}) {
+  return (
+    <div className="bg-card border-border rounded-2xl border p-5">
+      <p className="text-fog font-mono text-[10px] tracking-wider uppercase">{label}</p>
+      <p className="font-display mt-2 text-4xl leading-none tracking-tight lg:text-5xl">{value}</p>
+      <p className={`mt-3 font-mono text-[10px] tracking-wider ${tone}`}>
+        +{week} THIS WEEK
+      </p>
+    </div>
+  );
+}
+
+function Dashboard() {
+  const stats = useQuery(adminStatsQuery);
+  const s = stats.data;
+
+  if (stats.isLoading) return <p className="text-fog text-sm">Loading numbers…</p>;
+  if (!s) return <p className="text-fog text-sm">No statistics available.</p>;
+
+  const bars: { label: string; value: number; week: number }[] = [
+    { label: "Members", value: s.members, week: s.members_week },
+    { label: "Event sign-ups", value: s.registrations, week: s.registrations_week },
+    { label: "Community posts", value: s.posts, week: s.posts_week },
+    { label: "Notifications", value: s.notifications, week: s.notifications_week },
+  ];
+  const peak = Math.max(1, ...bars.map((b) => b.value));
+
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard label="Total members" value={s.members} week={s.members_week} tone="text-jade" />
+        <StatCard
+          label="Registered attendees"
+          value={s.registrations}
+          week={s.registrations_week}
+          tone="text-saffron"
+        />
+        <StatCard label="Community posts" value={s.posts} week={s.posts_week} tone="text-sky" />
+        <StatCard
+          label="Notifications sent"
+          value={s.notifications}
+          week={s.notifications_week}
+          tone="text-rose"
+        />
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <div className="bg-card border-border rounded-2xl border p-5">
+          <h2 className="font-display text-lg tracking-tight">Overall activity</h2>
+          <div className="mt-4 space-y-4">
+            {bars.map((b) => (
+              <div key={b.label}>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-sm">{b.label}</span>
+                  <span className="text-fog font-mono text-[10px]">
+                    {b.value} · +{b.week} / 7 DAYS
+                  </span>
+                </div>
+                <div className="bg-card2 h-2 overflow-hidden rounded-full">
+                  <div
+                    className="bg-saffron h-full rounded-full"
+                    style={{ width: `${Math.round((b.value / peak) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-card border-border space-y-3 rounded-2xl border p-5">
+          <h2 className="font-display text-lg tracking-tight">At a glance</h2>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-fog">Events published</span>
+            <span className="font-semibold">{s.events}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-fog">Open reports</span>
+            <span className={s.open_reports > 0 ? "text-rose font-semibold" : "font-semibold"}>
+              {s.open_reports}
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-fog">New members this week</span>
+            <span className="font-semibold">{s.members_week}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-fog">Sign-ups this week</span>
+            <span className="font-semibold">{s.registrations_week}</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
