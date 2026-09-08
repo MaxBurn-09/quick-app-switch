@@ -33,6 +33,34 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+
+  async function google() {
+    setBusy(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+      navigate({ to: "/home" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Google sign-in failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function resend() {
+    if (!pendingEmail) return;
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: pendingEmail,
+      options: { emailRedirectTo: window.location.origin },
+    });
+    if (error) toast.error(error.message);
+    else toast.success("Confirmation email sent again.");
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,6 +77,7 @@ function AuthPage() {
         });
         if (error) throw error;
         if (!data.session) {
+          setPendingEmail(email);
           toast.success("Check your email to confirm your account.");
           return;
         }
