@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { CAMPUS_DOMAIN, CAMPUS_EMAIL_MESSAGE, isCampusEmail } from "@/lib/campus";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -40,9 +41,16 @@ function AuthPage() {
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: window.location.origin,
+        extraParams: { hd: CAMPUS_DOMAIN, prompt: "select_account" },
       });
       if (result.error) throw result.error;
       if (result.redirected) return;
+      const { data } = await supabase.auth.getUser();
+      if (!isCampusEmail(data.user?.email)) {
+        await supabase.auth.signOut();
+        toast.error(CAMPUS_EMAIL_MESSAGE);
+        return;
+      }
       navigate({ to: "/home" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
@@ -64,6 +72,10 @@ function AuthPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!isCampusEmail(email)) {
+      toast.error(CAMPUS_EMAIL_MESSAGE);
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "up") {
@@ -113,7 +125,9 @@ function AuthPage() {
               Events, announcements, activities and a student-only community — one sign-in away.
             </p>
           </div>
-          <p className="text-fog font-mono text-[10px] tracking-wider">MEMBERS ONLY</p>
+          <p className="text-fog font-mono text-[10px] tracking-wider">
+            @{CAMPUS_DOMAIN} ACCOUNTS ONLY · ADMIN ACCESS IS GRANTED BY A SUPER ADMIN
+          </p>
         </div>
         <div className="lg:p-12">
           <Link
@@ -126,10 +140,11 @@ function AuthPage() {
           {mode === "in" ? "WELCOME BACK" : "JOIN THE CIRCLE"}
         </h1>
         <p className="text-fog mt-2 text-sm">
-          Use your university email to access events, announcements and the student community.
+          Only official college accounts ending in{" "}
+          <span className="text-saffron font-mono text-xs">@{CAMPUS_DOMAIN}</span> can sign in.
         </p>
 
-        <form onSubmit={submit} className="mt-7 space-y-3">
+        <form onSubmit={submit} className="stagger mt-7 space-y-3">
           {mode === "up" && (
             <Field
               label="Full name"
@@ -140,11 +155,11 @@ function AuthPage() {
             />
           )}
           <Field
-            label="University email"
+            label="College email"
             type="email"
             value={email}
             onChange={setEmail}
-            placeholder="you@university.edu"
+            placeholder={`you@${CAMPUS_DOMAIN}`}
             required
           />
           <Field
@@ -158,7 +173,7 @@ function AuthPage() {
           <button
             type="submit"
             disabled={busy}
-            className="bg-saffron text-canvas font-display mt-2 w-full rounded-xl py-3 text-lg tracking-wide disabled:opacity-60"
+            className="bg-saffron text-canvas font-display press mt-2 w-full rounded-xl py-3 text-lg tracking-wide transition-transform hover:-translate-y-0.5 disabled:opacity-60"
           >
             {busy ? "PLEASE WAIT…" : mode === "in" ? "SIGN IN" : "CREATE ACCOUNT"}
           </button>

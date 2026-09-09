@@ -42,13 +42,15 @@ const TABS = [
   { id: "events", label: "Events", hint: "Create & manage" },
   { id: "announcements", label: "Announcements", hint: "Notices to members" },
   { id: "moderation", label: "Moderation", hint: "Reported posts" },
+  { id: "team", label: "Admin team", hint: "Super admin only" },
   { id: "profile", label: "My profile", hint: "Your admin details" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
 
 function AdminPage() {
-  const { isAdmin, user, profile, profiles, loading } = useMe();
+  const { isAdmin, user, profile, profiles, roles, loading } = useMe();
+  const isSuper = roles.includes("super_admin");
   const [tab, setTab] = useState<TabId>("dashboard");
 
   if (loading) {
@@ -82,7 +84,9 @@ function AdminPage() {
     );
   }
 
-  const active = TABS.find((t) => t.id === tab)!;
+  const visibleTabs = TABS.filter((t) => t.id !== "team" || isSuper);
+  const current = visibleTabs.some((t) => t.id === tab) ? tab : "dashboard";
+  const active = visibleTabs.find((t) => t.id === current)!;
 
   return (
     <div className="fadeup space-y-6">
@@ -108,12 +112,12 @@ function AdminPage() {
         </div>
 
         <nav className="mt-5 flex flex-wrap gap-2">
-          {TABS.map((t) => (
+          {visibleTabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`rounded-full px-4 py-2 font-mono text-[10px] tracking-wider uppercase transition-colors ${
-                tab === t.id
+                current === t.id
                   ? "bg-saffron text-canvas"
                   : "bg-card2 text-fog hover:text-ink border-border border"
               }`}
@@ -124,11 +128,12 @@ function AdminPage() {
         </nav>
       </header>
 
-      {tab === "dashboard" && <Dashboard />}
-      {tab === "events" && <EventForm userId={user?.id} />}
-      {tab === "announcements" && <AnnouncementForm userId={user?.id} />}
-      {tab === "moderation" && <Moderation profiles={profiles} userId={user?.id} />}
-      {tab === "profile" && <AdminProfile profile={profile} userId={user?.id} />}
+      {current === "dashboard" && <Dashboard />}
+      {current === "events" && <EventForm userId={user?.id} />}
+      {current === "announcements" && <AnnouncementForm userId={user?.id} />}
+      {current === "team" && <AdminTeam profiles={profiles} />}
+      {current === "moderation" && <Moderation profiles={profiles} userId={user?.id} />}
+      {current === "profile" && <AdminProfile profile={profile} userId={user?.id} />}
     </div>
   );
 }
