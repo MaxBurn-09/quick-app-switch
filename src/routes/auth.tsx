@@ -138,10 +138,11 @@ function AuthPage() {
           {mode === "in" ? "WELCOME BACK" : "JOIN THE CIRCLE"}
         </h1>
         <p className="text-fog mt-2 text-sm">
-          Use your university email to access events, announcements and the student community.
+          Only official college accounts ending in{" "}
+          <span className="text-saffron font-mono text-xs">@{CAMPUS_DOMAIN}</span> can sign in.
         </p>
 
-        <form onSubmit={submit} className="mt-7 space-y-3">
+        <form onSubmit={submit} className="stagger mt-7 space-y-3">
           {mode === "up" && (
             <Field
               label="Full name"
@@ -152,11 +153,11 @@ function AuthPage() {
             />
           )}
           <Field
-            label="University email"
+            label="College email"
             type="email"
             value={email}
             onChange={setEmail}
-            placeholder="you@university.edu"
+            placeholder={`you@${CAMPUS_DOMAIN}`}
             required
           />
           <Field
@@ -170,7 +171,7 @@ function AuthPage() {
           <button
             type="submit"
             disabled={busy}
-            className="bg-saffron text-canvas font-display mt-2 w-full rounded-xl py-3 text-lg tracking-wide disabled:opacity-60"
+            className="bg-saffron text-canvas font-display press mt-2 w-full rounded-xl py-3 text-lg tracking-wide transition-transform hover:-translate-y-0.5 disabled:opacity-60"
           >
             {busy ? "PLEASE WAIT…" : mode === "in" ? "SIGN IN" : "CREATE ACCOUNT"}
           </button>
