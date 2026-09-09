@@ -72,6 +72,10 @@ function AuthPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!isCampusEmail(email)) {
+      toast.error(CAMPUS_EMAIL_MESSAGE);
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "up") {
