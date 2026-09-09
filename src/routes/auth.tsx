@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { CAMPUS_DOMAIN, CAMPUS_EMAIL_MESSAGE, isCampusEmail } from "@/lib/campus";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -40,9 +41,16 @@ function AuthPage() {
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: window.location.origin,
+        extraParams: { hd: CAMPUS_DOMAIN, prompt: "select_account" },
       });
       if (result.error) throw result.error;
       if (result.redirected) return;
+      const { data } = await supabase.auth.getUser();
+      if (!isCampusEmail(data.user?.email)) {
+        await supabase.auth.signOut();
+        toast.error(CAMPUS_EMAIL_MESSAGE);
+        return;
+      }
       navigate({ to: "/home" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
