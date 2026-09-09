@@ -117,7 +117,7 @@ function AdminPage() {
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`rounded-full px-4 py-2 font-mono text-[10px] tracking-wider uppercase transition-colors ${
-                tab === t.id
+                current === t.id
                   ? "bg-saffron text-canvas"
                   : "bg-card2 text-fog hover:text-ink border-border border"
               }`}
