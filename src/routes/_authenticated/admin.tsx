@@ -42,6 +42,7 @@ const TABS = [
   { id: "events", label: "Events", hint: "Create & manage" },
   { id: "announcements", label: "Announcements", hint: "Notices to members" },
   { id: "moderation", label: "Moderation", hint: "Reported posts" },
+  { id: "team", label: "Admin team", hint: "Super admin only" },
   { id: "profile", label: "My profile", hint: "Your admin details" },
 ] as const;
 
