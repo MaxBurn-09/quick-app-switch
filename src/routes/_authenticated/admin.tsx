@@ -48,8 +48,21 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 function AdminPage() {
-  const { isAdmin, user, profile, profiles } = useMe();
+  const { isAdmin, user, profile, profiles, loading } = useMe();
   const [tab, setTab] = useState<TabId>("dashboard");
+
+  if (loading) {
+    return (
+      <div className="space-y-4 py-10">
+        <div className="bg-card/60 h-28 animate-pulse rounded-2xl" />
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="bg-card/50 h-28 animate-pulse rounded-2xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (!isAdmin) {
     return (

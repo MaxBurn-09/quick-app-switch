@@ -28,13 +28,14 @@ export function useUser() {
 }
 
 export function useMe() {
-  const { user } = useUser();
+  const { user, loading: userLoading } = useUser();
   const profiles = useQuery(profilesQuery);
   const roles = useQuery(rolesQuery);
 
   const profile = profiles.data?.find((p) => p.id === user?.id) ?? null;
   const myRoles = roles.data?.filter((r) => r.user_id === user?.id).map((r) => r.role) ?? [];
   const isAdmin = myRoles.includes("club_admin") || myRoles.includes("super_admin");
+  const loading = userLoading || roles.isPending || profiles.isPending;
 
-  return { user, profile, roles: myRoles, isAdmin, profiles: profiles.data ?? [] };
+  return { user, profile, roles: myRoles, isAdmin, loading, profiles: profiles.data ?? [] };
 }
