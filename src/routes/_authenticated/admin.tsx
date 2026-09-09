@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -777,6 +777,17 @@ function AdminProfile({
     student_id: profile?.student_id ?? "",
     bio: profile?.bio ?? "",
   });
+
+  useEffect(() => {
+    if (!profile) return;
+    setF({
+      full_name: profile.full_name ?? "",
+      department: profile.department ?? "",
+      year: profile.year ?? "",
+      student_id: profile.student_id ?? "",
+      bio: profile.bio ?? "",
+    });
+  }, [profile?.id, profile?.full_name, profile?.department, profile?.year, profile?.student_id, profile?.bio]);
 
   const save = useMutation({
     mutationFn: async () => {
