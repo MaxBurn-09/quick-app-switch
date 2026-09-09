@@ -125,7 +125,9 @@ function AuthPage() {
               Events, announcements, activities and a student-only community — one sign-in away.
             </p>
           </div>
-          <p className="text-fog font-mono text-[10px] tracking-wider">MEMBERS ONLY</p>
+          <p className="text-fog font-mono text-[10px] tracking-wider">
+            @{CAMPUS_DOMAIN} ACCOUNTS ONLY · ADMIN ACCESS IS GRANTED BY A SUPER ADMIN
+          </p>
         </div>
         <div className="lg:p-12">
           <Link
