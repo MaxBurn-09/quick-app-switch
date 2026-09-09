@@ -49,7 +49,8 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 function AdminPage() {
-  const { isAdmin, user, profile, profiles, loading } = useMe();
+  const { isAdmin, user, profile, profiles, roles, loading } = useMe();
+  const isSuper = roles.includes("super_admin");
   const [tab, setTab] = useState<TabId>("dashboard");
 
   if (loading) {
