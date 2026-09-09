@@ -98,16 +98,25 @@ export function AppShell({ children }: { children: ReactNode }) {
                 SEARCHING EYES
               </p>
             </Link>
-            <Link
-              to="/notifications"
-              className="bg-card2 text-ink border-border relative grid size-10 shrink-0 place-items-center rounded-full border"
-              aria-label="Notifications"
-            >
-              <span className="text-lg">◷</span>
-              {unread > 0 && (
-                <span className="bg-rose ring-canvas absolute top-1.5 right-1.5 size-2 rounded-full ring-2" />
-              )}
-            </Link>
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                to="/notifications"
+                className="bg-card2 text-ink border-border relative grid size-10 shrink-0 place-items-center rounded-full border"
+                aria-label="Notifications"
+              >
+                <span className="text-lg">◷</span>
+                {unread > 0 && (
+                  <span className="bg-rose ring-canvas absolute top-1.5 right-1.5 size-2 rounded-full ring-2" />
+                )}
+              </Link>
+              <Link
+                to="/profile"
+                className="bg-card2 text-saffron border-border grid size-10 shrink-0 place-items-center rounded-full border font-mono text-[11px]"
+                aria-label="My profile"
+              >
+                {initials(profile?.full_name)}
+              </Link>
+            </div>
           </header>
 
           <main
