@@ -84,7 +84,9 @@ function AdminPage() {
     );
   }
 
-  const active = TABS.find((t) => t.id === tab)!;
+  const visibleTabs = TABS.filter((t) => t.id !== "team" || isSuper);
+  const current = visibleTabs.some((t) => t.id === tab) ? tab : "dashboard";
+  const active = visibleTabs.find((t) => t.id === current)!;
 
   return (
     <div className="fadeup space-y-6">
