@@ -112,7 +112,7 @@ function AdminPage() {
         </div>
 
         <nav className="mt-5 flex flex-wrap gap-2">
-          {TABS.map((t) => (
+          {visibleTabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
@@ -128,11 +128,12 @@ function AdminPage() {
         </nav>
       </header>
 
-      {tab === "dashboard" && <Dashboard />}
-      {tab === "events" && <EventForm userId={user?.id} />}
-      {tab === "announcements" && <AnnouncementForm userId={user?.id} />}
-      {tab === "moderation" && <Moderation profiles={profiles} userId={user?.id} />}
-      {tab === "profile" && <AdminProfile profile={profile} userId={user?.id} />}
+      {current === "dashboard" && <Dashboard />}
+      {current === "events" && <EventForm userId={user?.id} />}
+      {current === "announcements" && <AnnouncementForm userId={user?.id} />}
+      {current === "team" && <AdminTeam profiles={profiles} />}
+      {current === "moderation" && <Moderation profiles={profiles} userId={user?.id} />}
+      {current === "profile" && <AdminProfile profile={profile} userId={user?.id} />}
     </div>
   );
 }
