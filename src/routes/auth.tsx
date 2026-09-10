@@ -108,36 +108,35 @@ function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-5 py-10">
-      <div className="fadeup border-border bg-card/40 w-full max-w-[400px] lg:grid lg:max-w-4xl lg:grid-cols-[1fr_1.1fr] lg:overflow-hidden lg:rounded-[28px] lg:border">
-        <div className="bg-card2 border-border relative hidden flex-col justify-between border-r p-10 lg:flex">
-          <Link to="/" className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase">
-            ← Back
+    <div className="bg-canvas flex min-h-screen items-center justify-center px-5 py-12 sm:px-8">
+      <div className="fadeup w-full max-w-[420px] lg:grid lg:max-w-5xl lg:grid-cols-[1fr_1fr] lg:overflow-hidden lg:rounded-2xl lg:bg-card lg:shadow-[0_24px_80px_-48px_rgba(0,0,0,.3)]">
+        <div className="bg-card2 relative hidden flex-col justify-between p-12 lg:flex">
+          <Link to="/" className="text-fog text-sm font-medium">
+            Back to home
           </Link>
           <div>
-            <p className="text-fog font-mono text-[10px] tracking-[0.25em] uppercase">Campus</p>
-            <p className="font-display mt-2 text-6xl leading-[0.95] tracking-tight">
-              SEARCHING
-              <br />
-              EYES
+            <span className="bg-ink text-card grid size-12 place-items-center rounded-xl font-display text-2xl font-bold">S</span>
+            <p className="font-display mt-6 text-5xl leading-tight font-semibold">
+              Your campus,
+              <br />all in one place.
             </p>
             <p className="text-fog mt-4 max-w-xs text-sm">
               Events, announcements, activities and a student-only community — one sign-in away.
             </p>
           </div>
-          <p className="text-fog font-mono text-[10px] tracking-wider">
-            @{CAMPUS_DOMAIN} ACCOUNTS ONLY · ADMIN ACCESS IS GRANTED BY A SUPER ADMIN
+          <p className="text-fog text-xs">
+            @{CAMPUS_DOMAIN} accounts only. Admin access is granted by a super admin.
           </p>
         </div>
-        <div className="lg:p-12">
+        <div className="lg:p-14">
           <Link
             to="/"
-            className="text-fog font-mono text-[10px] tracking-[0.3em] uppercase lg:hidden"
+            className="text-fog text-sm font-medium lg:hidden"
           >
             ← Back
           </Link>
-        <h1 className="font-display mt-5 text-4xl leading-none tracking-tight">
-          {mode === "in" ? "WELCOME BACK" : "JOIN THE CIRCLE"}
+        <h1 className="font-display mt-8 text-4xl font-semibold">
+          {mode === "in" ? "Welcome back" : "Create your account"}
         </h1>
         <p className="text-fog mt-2 text-sm">
           Only official college accounts ending in{" "}
@@ -173,9 +172,9 @@ function AuthPage() {
           <button
             type="submit"
             disabled={busy}
-            className="bg-saffron text-canvas font-display press mt-2 w-full rounded-xl py-3 text-lg tracking-wide transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+           className="bg-primary text-primary-foreground press mt-3 w-full rounded-full py-3 text-sm font-semibold disabled:opacity-60"
           >
-            {busy ? "PLEASE WAIT…" : mode === "in" ? "SIGN IN" : "CREATE ACCOUNT"}
+            {busy ? "Please wait…" : mode === "in" ? "Sign in" : "Create account"}
           </button>
         </form>
 
@@ -201,7 +200,7 @@ function AuthPage() {
           type="button"
           onClick={google}
           disabled={busy}
-          className="border-border bg-card2 hover:border-saffron flex w-full items-center justify-center gap-3 rounded-xl border py-3 text-sm font-semibold transition-colors disabled:opacity-60"
+            className="border-border bg-card hover:bg-card2 flex w-full items-center justify-center gap-3 rounded-full border py-3 text-sm font-semibold transition-colors disabled:opacity-60"
         >
           <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
             <path fill="#EA4335" d="M12 10.2v3.9h5.5a4.7 4.7 0 0 1-2 3.1l3.2 2.5c1.9-1.7 3-4.3 3-7.4 0-.7-.1-1.4-.2-2H12z" />
@@ -249,14 +248,14 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-fog font-mono text-[10px] tracking-[0.2em] uppercase">{label}</span>
+      <span className="text-ink text-sm font-medium">{label}</span>
       <input
         type={type}
         value={value}
         required={required}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-card2 border-border text-ink placeholder:text-fog/60 focus:border-saffron mt-1 w-full rounded-xl border px-4 py-3 text-sm outline-none"
+        className="bg-card border-border text-ink placeholder:text-fog/60 focus:border-primary focus:ring-primary/10 mt-2 w-full rounded-lg border px-4 py-3 text-sm outline-none focus:ring-4"
       />
     </label>
   );
