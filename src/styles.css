@@ -2,12 +2,9 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /*
- * Searching Eyes design system — "Stained Glass Campus".
- * Deep violet canvas, jewel accents, Anton display + Inter body + JetBrains mono.
- * All colours are oklch semantic tokens. Never hardcode colours in components.
+ * Searching Eyes design system — "Campus, clearly".
+ * A single light editorial theme with quiet surfaces and restrained blue actions.
  */
 
 @theme inline {
@@ -48,39 +45,39 @@
   --color-jade: var(--jade);
   --color-sky: var(--sky);
 
-  --font-display: "Anton", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Sans", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 1.125rem;
-  --background: oklch(0.161 0.058 295);
-  --foreground: oklch(0.932 0.021 300);
-  --canvas: oklch(0.161 0.058 295);
-  --card: oklch(0.218 0.056 298);
-  --card-foreground: oklch(0.932 0.021 300);
-  --card2: oklch(0.259 0.066 297);
-  --popover: oklch(0.218 0.056 298);
-  --popover-foreground: oklch(0.932 0.021 300);
-  --primary: oklch(0.761 0.176 57);
-  --primary-foreground: oklch(0.161 0.058 295);
-  --secondary: oklch(0.259 0.066 297);
-  --secondary-foreground: oklch(0.932 0.021 300);
-  --muted: oklch(0.259 0.066 297);
-  --muted-foreground: oklch(0.705 0.052 295);
-  --accent: oklch(0.752 0.129 232);
-  --accent-foreground: oklch(0.161 0.058 295);
-  --destructive: oklch(0.678 0.212 10);
-  --destructive-foreground: oklch(0.161 0.058 295);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.761 0.176 57);
+  --radius: 0.75rem;
+  --background: oklch(0.97 0.003 265);
+  --foreground: oklch(0.18 0.004 265);
+  --canvas: oklch(0.97 0.003 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.004 265);
+  --card2: oklch(0.945 0.004 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.004 265);
+  --primary: oklch(0.55 0.19 255);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.945 0.004 265);
+  --secondary-foreground: oklch(0.18 0.004 265);
+  --muted: oklch(0.945 0.004 265);
+  --muted-foreground: oklch(0.5 0.008 265);
+  --accent: oklch(0.93 0.025 255);
+  --accent-foreground: oklch(0.42 0.16 255);
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.89 0.004 265);
+  --input: oklch(0.86 0.006 265);
+  --ring: oklch(0.55 0.19 255);
 
-  --saffron: oklch(0.761 0.176 57);
-  --rose: oklch(0.678 0.212 10);
-  --jade: oklch(0.822 0.163 166);
-  --sky: oklch(0.752 0.129 232);
+  --saffron: oklch(0.55 0.19 255);
+  --rose: oklch(0.58 0.22 25);
+  --jade: oklch(0.52 0.14 160);
+  --sky: oklch(0.5 0.14 235);
 }
 
 @layer base {
@@ -90,10 +87,14 @@
 
   html,
   body {
-    background-color: oklch(0.09 0.036 295);
+    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 18%, transparent);
   }
 }
 
@@ -142,25 +143,6 @@
   }
 }
 
-@keyframes shimmer {
-  from {
-    background-position: 200% 0;
-  }
-  to {
-    background-position: -200% 0;
-  }
-}
-
-@keyframes glowpulse {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
 @utility rise {
   animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -196,14 +178,6 @@
   }
 }
 
-@utility floaty {
-  animation: floaty 7s ease-in-out infinite;
-}
-
-@utility glowpulse {
-  animation: glowpulse 9s ease-in-out infinite;
-}
-
 @utility lift {
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -211,8 +185,8 @@
     box-shadow 0.35s ease;
   &:hover {
     transform: translateY(-4px);
-    border-color: color-mix(in oklab, var(--saffron) 45%, transparent);
-    box-shadow: 0 18px 40px -24px color-mix(in oklab, var(--saffron) 60%, transparent);
+    border-color: color-mix(in oklab, var(--primary) 35%, transparent);
+    box-shadow: 0 18px 40px -28px color-mix(in oklab, var(--foreground) 35%, transparent);
   }
 }
 
@@ -221,21 +195,6 @@
   &:active {
     transform: scale(0.97);
   }
-}
-
-@utility shine {
-  background-image: linear-gradient(
-    100deg,
-    var(--saffron) 0%,
-    var(--jade) 35%,
-    var(--sky) 55%,
-    var(--saffron) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 7s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
