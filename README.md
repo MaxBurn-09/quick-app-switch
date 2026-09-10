@@ -1,6 +1,11 @@
-# App Canvas
+# Searching Eyes
 
-build this web app   codes will be in react so we can easily convert it into app
+Campus community app for MDU students: events, announcements, activities, a members feed, and an AI assistant. Built with React so the same UI can later ship as a native app.
+
+**Codebase wiki** (architecture, flowcharts, data diagrams, database explainer):
+
+- GitHub Wiki: https://github.com/MaxBurn-09/quick-app-switch/wiki
+- In-repo copy: [`wiki/Home.md`](wiki/Home.md)
 
 This project was built with [Lovable](https://lovable.dev).
 
